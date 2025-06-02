@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${project.name} + ' | Project Details'">Project Details</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="light-mode">
+<header>
+    <div class="container">
+        <h1 th:text="${project.name}"></h1>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/projects">Projects</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+
+
+        </nav>
+    </div>
+</header>
+
+<main>
+    <section class="hero">
+        <div class="container project-detail">
+            <img th:if="${project.imagePath}" th:src="${project.imagePath}" alt="Project Image" class="detail-img"/>
+
+            <div class="detail-content">
+                <h2>Overview</h2>
+                <div th:utext="${project.longDescription}" class="formatted-text"></div>
+
+
+                <h3>Tech Stack</h3>
+                <p th:text="${project.techStack}"></p>
+
+                <div th:if="${project.link}">
+                    <a th:href="${project.link}" target="_blank" class="btn">Visit Project</a>
+                </div>
+
+                <br>
+                <a href="/projects" class="btn">← Back to Projects</a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2025 Dateh Ambe. All rights reserved.</p>
+    </div>
+
+    <button id="themeToggle" class="theme-toggle">🌙</button>
+</footer>
+<script>
+    // Dark mode toggle with localStorage support
+    const toggle = document.getElementById('themeToggle');
+    const body = document.body;
+
+    // Load saved preference
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        body.classList.remove('light-mode');
+        body.classList.add('dark-mode');
+        toggle.textContent = '☀️';
+    }
+
+    toggle.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+        body.classList.toggle('light-mode');
+
+        const isDark = body.classList.contains('dark-mode');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        toggle.textContent = isDark ? '☀️' : '🌙';
+    });
+</script>
+
+</body>
+</html>

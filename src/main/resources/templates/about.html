@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>About Me | Dateh Ambe</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="light-mode">
+<header>
+  <div class="container">
+    <h1><span class="highlight">About Me</span></h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/projects">Projects</a>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+
+
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="container">
+      <p>
+        My name is <strong>Dateh Ambe</strong>, and I’m a second-year BCom Information Systems and Mathematical Statistics student at the University of the Western Cape.
+      </p>
+      <p>
+        My journey in tech began in grade 7 when I built my first game on Scratch to help kids learn the alphabet. That small project sparked a passion for using technology to solve real-world problems — a passion that’s grown with every line of code I’ve written since.
+      </p>
+      <p>
+        In high school, I was introduced to Java, HTML, and basic SQL. Over the past year, I’ve built on that foundation by learning Spring Boot, Thymeleaf, and CSS, allowing me to create full-stack web applications.
+      </p>
+      <p>
+        Some of the projects I’ve worked on include an athletics management platform for my high school, <strong>FestivalPass V1</strong> — a multi-organisational festival system for ticketing and vendor applications, <strong>Read Me When You Need Me</strong> — a personal site I made as a gift, and <strong>EazyCuts</strong> — a booking system for my local barbershop to manage appointments.
+      </p>
+      <p>
+        My current goals are to deepen my backend development skills, expand my tech stack, and secure internship opportunities that allow me to keep growing as a developer.
+      </p>
+      <p>
+        Outside of coding, I’m a track and field athlete for UWC, and I enjoy playing PC games — which gives me a break while keeping me sharp in problem-solving.
+      </p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <p>Want to connect or collaborate? <a href="/contact" class="contact-link">Reach out</a></p>
+    <p>&copy; 2025 Dateh Ambe. All rights reserved.</p>
+  </div>
+
+  <button id="themeToggle" class="theme-toggle">🌙</button>
+</footer>
+<script>
+  // Dark mode toggle with localStorage support
+  const toggle = document.getElementById('themeToggle');
+  const body = document.body;
+
+  // Load saved preference
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
+    body.classList.remove('light-mode');
+    body.classList.add('dark-mode');
+    toggle.textContent = '☀️';
+  }
+
+  toggle.addEventListener('click', () => {
+    body.classList.toggle('dark-mode');
+    body.classList.toggle('light-mode');
+
+    const isDark = body.classList.contains('dark-mode');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    toggle.textContent = isDark ? '☀️' : '🌙';
+  });
+</script>
+
+</body>
+</html>
