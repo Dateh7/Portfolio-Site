@@ -1,26 +1,26 @@
-# Use an official Maven image to build the application
-FROM maven:3.9.4-eclipse-temurin-17 as builder
-
-# Set the working directory
-WORKDIR /app
-
-# Copy all project files
-COPY . .
-
-# Package the application
-RUN mvn clean package -DskipTests
-
-# Use a minimal Java image to run the app
-FROM eclipse-temurin:17-jdk-alpine
+# Use Maven with Java 21 to build the application
+FROM maven:3.9.5-eclipse-temurin-21 AS builder
 
 # Set working directory
 WORKDIR /app
 
-# Copy the built JAR from the builder image
-COPY --from=builder /app/target/*.jar app.jar
+# Copy pom.xml and install dependencies
+COPY pom.xml .
+RUN mvn dependency:go-offline
 
-# Expose the port your Spring Boot app runs on (usually 8080)
-EXPOSE 8080
+# Copy the full source code
+COPY src ./src
+
+# Package the application
+RUN mvn clean package -DskipTests
+
+# Use a lightweight Java 21 JRE to run the application
+FROM eclipse-temurin:21-jre
+
+WORKDIR /app
+
+# Copy the built JAR from the builder image
+COPY --from=builder /app/target/ProjeectPortfolio-0.0.1-SNAPSHOT.jar app.jar
 
 # Run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
