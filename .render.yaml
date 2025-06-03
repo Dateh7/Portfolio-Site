@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: portfolio
+    env: java
+    buildCommand: ./mvnw clean install
+    startCommand: java -jar target/ProjectPortfolio-0.0.1-SNAPSHOT.jar
+    plan: free
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: production
