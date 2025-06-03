@@ -1,28 +1,22 @@
-# ---- Build stage ----
-FROM eclipse-temurin:21-jdk AS build
+# Use a Maven image with JDK 21
+FROM maven:3.9.4-eclipse-temurin-21 AS builder
 
+# Set work directory
 WORKDIR /app
 
-# Install Maven
-RUN apt-get update && \
-    apt-get install -y maven && \
-    apt-get clean
+# Copy source
+COPY . .
 
-# Copy project files
-COPY pom.xml .
-RUN mvn dependency:go-offline
-
-COPY src ./src
-
-# Build the Spring Boot app
+# Package the app
 RUN mvn clean package -DskipTests
 
-# ---- Run stage ----
-FROM eclipse-temurin:21-jre
+# Use a minimal JDK image to run the app
+FROM eclipse-temurin:21-jdk
 
 WORKDIR /app
 
-COPY --from=build /app/target/ProjeectPortfolio-0.0.1-SNAPSHOT.jar app.jar
+# Copy JAR from builder stage
+COPY --from=builder /app/target/*.jar app.jar
 
-EXPOSE 8080
+# Run the app
 ENTRYPOINT ["java", "-jar", "app.jar"]
