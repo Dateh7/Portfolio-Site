@@ -1,22 +1,12 @@
-# Use a Maven image with JDK 21
-FROM maven:3.9.4-eclipse-temurin-21 AS builder
-
-# Set work directory
+# Build stage
+FROM maven:3.9.4-eclipse-temurin-17 AS builder
 WORKDIR /app
-
-# Copy source
 COPY . .
-
-# Package the app
 RUN mvn clean package -DskipTests
 
-# Use a minimal JDK image to run the app
-FROM eclipse-temurin:21-jdk
-
+# Run stage
+FROM eclipse-temurin:17-jdk
 WORKDIR /app
-
-# Copy JAR from builder stage
-COPY --from=builder /app/target/*.jar app.jar
-
-# Run the app
+COPY --from=builder /app/target/ProjeectPortfolio-0.0.1-SNAPSHOT.jar app.jar
+EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
